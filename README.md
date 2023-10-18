@@ -45,7 +45,7 @@ $ mvn spotless:apply
 ```
 
 - To build the fat jar, execute the below command from within the project root directory which will generate
-  ```{project_dir}/target/dataflow-metrics-exporter-1.0.jar```
+  ```{project_dir}/target/dataflow-metrics-exporter-${version}.jar```
 
 ```bash
 $ mvn clean package
