@@ -45,7 +45,7 @@ $ mvn spotless:apply
 ```
 
 - To build the fat jar, execute the below command from within the project root directory which will generate
-  ```{project_dir}/target/dataflow-metrics-collector-1.0.jar```
+  ```{project_dir}/target/dataflow-metrics-exporter-1.0.jar```
 
 ```bash
 $ mvn clean package
@@ -85,11 +85,11 @@ job will not be calculated.
 ### Execute the command
 ```bash
 # To store results in BigQuery
-$ java -jar /path/to/metrics-collector-1.0.jar --command COLLECT_METRICS --conf /path/to/config.json \
+$ java -jar /path/to/dataflow-metrics-exporter-${version}.jar --command COLLECT_METRICS --conf /path/to/config.json \
 --output_type BIGQUERY --output_location projectid:datasetid.tableid
 
 # To store results in GCS / local file system
-$ java -jar /path/to/metrics-collector-1.0.jar --command COLLECT_METRICS --conf /path/to/config.json \
+$ java -jar /path/to/dataflow-metrics-exporter-${version}.jar --command COLLECT_METRICS --conf /path/to/config.json \
 --output_type FILE --output_location /path/to/output/location
 ```
 
@@ -207,11 +207,11 @@ $ gcloud dataflow flex-template run --help
 ### Execute the command
 ```bash
 # To store results in BigQuery
-$ java -jar /path/to/metrics-collector-1.0.jar --command LAUNCH_AND_COLLECT --conf /path/to/config.json \
+$ java -jar /path/to/dataflow-metrics-exporter-${version}.jar --command LAUNCH_AND_COLLECT --conf /path/to/config.json \
 --output_type BIGQUERY --output_location projectid:datasetid.tableid
 
 # To store results in GCS / local file system
-$ java -jar /path/to/metrics-collector-1.0.jar --command LAUNCH_AND_COLLECT --conf /path/to/config.json \
+$ java -jar /path/to/dataflow-metrics-exporter-${version}.jar --command LAUNCH_AND_COLLECT --conf /path/to/config.json \
 --output_type FILE --output_location /path/to/output/location
 ```
 
