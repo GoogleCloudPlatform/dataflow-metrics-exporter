@@ -25,7 +25,7 @@ import com.google.cloud.dfmetrics.utils.MetricsCollectorUtils;
 /** Class {@link DataflowClient} encapsulates the client instance to interact with Dataflow API. */
 @AutoValue
 public class DataflowClient {
-  private static final String APPLICATION_NAME = "google-cloud/dataflow-metrics-exporter";
+  private static final String APPLICATION_NAME = "google-pso-tool/dataflow-metrics-exporter";
 
   public static Builder builder() {
     return new AutoValue_DataflowClient.Builder();
