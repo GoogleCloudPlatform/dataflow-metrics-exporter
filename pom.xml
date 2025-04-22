@@ -239,7 +239,7 @@
                                     <exclude>module-info.java</exclude>
                                 </excludes>
                             </artifactSet>
-                            <minimizeJar>true</minimizeJar>
+                            <minimizeJar>false</minimizeJar>
                             <filters>
                                 <filter>
                                     <artifact>*:*</artifact>

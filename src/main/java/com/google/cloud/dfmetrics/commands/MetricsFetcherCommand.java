@@ -36,7 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The {@link MetricsFetcherCommand} fetches Dataflow metrics from Cloud Monitoring for a given job
+ * The {@link MetricsFetcherCommand} fetches Dataflow metrics from Cloud
+ * Monitoring for a given job
  * and writes to appropriate output store.
  */
 public class MetricsFetcherCommand extends Command {
@@ -54,7 +55,10 @@ public class MetricsFetcherCommand extends Command {
     this.outputStore = outputStore;
   }
 
-  /** Loads & validates the supplied input configuration file and converts to jobconfig. */
+  /**
+   * Loads & validates the supplied input configuration file and converts to
+   * jobconfig.
+   */
   @Override
   public void initialize() {
     try {
@@ -67,35 +71,38 @@ public class MetricsFetcherCommand extends Command {
     }
   }
 
-  /** Fetches the job metrics and stores the results in appropriate output store. */
+  /**
+   * Fetches the job metrics and stores the results in appropriate output store.
+   */
   @Override
   public void run() {
     try {
       LOG.info("Creating Dataflow job manager..");
-      DataflowJobManager jobManager =
-          DataflowJobManager.builder(this.dataflowClient)
-              .build()
-              .withJob(jobConfig.projectId(), jobConfig.location(), jobConfig.jobId());
+      String[] jobIds = jobConfig.jobId().split(",");
 
-      JobInfo jobInfo = jobManager.getJobInfoBuilder(jobConfig).build();
+      for (String jobId : jobIds) {
+        DataflowJobManager jobManager = DataflowJobManager.builder(this.dataflowClient)
+            .build()
+            .withJob(jobConfig.projectId(), jobConfig.location(), jobId);
 
-      LOG.info("Fetching job metrics..");
-      MonitoringClient monitoringClient =
-          MonitoringClient.builder()
-              .setCredentials(
-                  MetricsCollectorUtils.getCredentialsFromDataflowClient(this.dataflowClient))
-              .build();
+        JobInfo jobInfo = jobManager.getJobInfoBuilder(jobConfig).build();
 
-      MetricsManager metricsManager =
-          MetricsManager.builder(this.dataflowClient, jobManager.job(), monitoringClient).build();
+        LOG.info("Fetching job metrics..");
+        MonitoringClient monitoringClient = MonitoringClient.builder()
+            .setCredentials(
+                MetricsCollectorUtils.getCredentialsFromDataflowClient(this.dataflowClient))
+            .build();
 
-      Map<String, Double> metrics =
-          metricsManager.getMetrics(jobInfo.jobType(), jobConfig.resourcePricing());
+        MetricsManager metricsManager = MetricsManager.builder(this.dataflowClient, jobManager.job(), monitoringClient)
+            .build();
 
-      LOG.info("Storing the results in the output store..");
-      this.outputStore.load(jobInfo, metrics);
+        Map<String, Double> metrics = metricsManager.getMetrics(jobInfo.jobType(), jobConfig.resourcePricing());
 
-      LOG.info("Completed all operations");
+        LOG.info("Storing the results in the output store..");
+        this.outputStore.load(jobInfo, metrics);
+
+        LOG.info("Completed all operations");
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

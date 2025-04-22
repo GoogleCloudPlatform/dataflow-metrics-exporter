@@ -82,6 +82,22 @@ job will not be calculated.
 }
 ```
 
+```json
+{
+  "project": "test-project-multijobs",
+  "region": "us-central1",
+  "jobId": "2023-09-05_12_40_15-5693029202890139182,2025-04-20_17_00_03-11309059285078405,2025-04-19_17_00_03-5896418901092431930",
+  "pricing": {
+    "vcpuPerHour": 0.056,
+    "memoryGbPerHour": 0.003557,
+    "pdGbPerHour": 0.000054,
+    "ssdGbPerHour": 10,
+    "shuffleDataPerGb": 0.011,
+    "streamingDataPerGb": 0.005
+  }
+}
+```
+
 ### Execute the command
 ```bash
 # To store results in BigQuery
